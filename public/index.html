@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta
+  name="viewport"
+  content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  />
+  
+  <title>Mapa Hospital</title>
+
+  <!-- Leaflet -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet/dist/leaflet.css"
+  />
+
+  <link rel="stylesheet" href="style.css" />
+
+////////////////////////////////////////////////////////////////////////////
+  <script>
+    window.APP_VERSION = "2.2.39";
+  </script>
+////////////////////////////////////////////////////////////////////////////
+
+</head>
+
+<body>
+  <!-- 🟣 PORTADA / GATE DE ENTRADA -->
+  <div id="portada" class="portada">
+
+    <!-- TÍTULO -->
+    <h1 class="portada-title">
+      <div class="portada-header">
+        <h1 class="portada-title">
+          Sistema de Orientación Institucional
+        </h1>
+
+        <div class="portada-subline">
+          <span class="hospital-name">Hospital Teodoro Álvarez</span>
+          <span class="app-version" id="appVersion"></span>
+        </div>
+      </div>
+
+
+    <!-- CONTENIDO CENTRAL -->
+    <div class="portada-content">
+
+      <!-- IZQUIERDA: GANCHO COOPERADORA -->
+      <div class="portada-cooperadora">
+        <a
+          href="https://cv-marcelo-mazzara.web.app"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-cooperadora"
+        >
+          <div class="coop-grid">
+            <div class="coop-emoji">🤝</div>
+            <div class="coop-text">
+              <div class="coop-title">Comunidad que acompaña</div>
+              <div class="coop-subtitle">Descubrí quiénes lo hacen posible</div>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- DERECHA: IMAGEN + ACCIÓN -->
+      <div class="portada-hero">
+        <img
+          src="assets/portada/portada.png"
+          alt="Guía interactiva del hospital"
+        />
+
+        <button id="btnAccederMapa" class="btn-acceder loading">
+          <span class="spinner"></span>
+          <span class="btn-text">Cargando recursos…</span>
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div id="viewport">
+
+  <!-- 🔵 HEADER -->
+  <header class="topbar">
+    <h1>Mapa interactivo del Hospital Álvarez</h1>
+  </header>
+
+  <!-- 🗺️ MAPA -->
+<div id="mapContainer">
+  <div id="mapPB"></div>
+
+    <!-- 🎬 CINE -->
+<div id="cineOverlay">
+  <div class="cine-puerta" id="cinePuerta"></div>
+  <img id="cineIndicador" />
+</div>
+</div>
+</div>
+
+  <!-- 🧭 UI SUPERIOR -->
+  <div class="app">
+    <div class="top-panel expanded" id="topPanel">
+
+      <div class="search-box">
+        <input id="inputDesde" placeholder="📍 Desde..." />
+        <input id="searchInput" placeholder="🎯 Hacia..." />
+        
+                <!-- 👇 Mensaje fantasma -->
+        <div id="hintBusqueda" class="hint-busqueda">
+          ✍️ Escribí un sector o servicio
+        </div>
+
+        <ul id="results"></ul>
+
+        <div id="confirmados" class="confirmados hidden">
+          <div id="confirmDesde" class="confirm-item"></div>
+          <div id="confirmHacia" class="confirm-item"></div>
+        </div>
+      </div>
+
+      <button id="btnIniciar" class="btn-iniciar hidden">
+        ▶ Iniciar recorrido
+      </button>
+
+      
+      <div class="panel-handle" id="panelHandle">
+        <div class="panel-indicator" id="panelIndicator">👇</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🧭 DOCK -->
+  <div id="dockAcciones">
+    <div id="fotoTrayecto" class="foto-trayecto hidden">
+      <div class="foto-trayecto-icono">📷</div>
+      <div class="foto-trayecto-minis"></div>
+    </div>
+
+    <div id="btnReplay" class="btn-replay hidden"></div>
+  </div>
+
+  <!-- 🖼️ MODAL FOTOS -->
+  <div id="fotoModal" class="foto-modal hidden">
+    <div class="foto-modal-close">✕</div>
+    <div class="foto-modal-content"></div>
+  </div>
+  
+  <!-- SCRIPTS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script src="recorrido-config.js"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>

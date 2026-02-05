@@ -1,0 +1,1095 @@
+/* =====================================================
+🟣 PORTADA / GATE DE ENTRADA
+===================================================== */
+
+.portada {
+  position: fixed;
+  inset: 0;
+  z-index: 9999; /* arriba de todo */
+  background: linear-gradient(
+    180deg,
+    rgb(18, 36, 50) 0%,
+    rgb(28, 56, 78) 100%
+  );
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;     /* ✅ CLAVE */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ---------- HEADER ---------- */
+.portada-header {
+  padding: 16px;
+  text-align: left;
+}
+
+/* TÍTULO PRINCIPAL */
+.portada-title {
+  margin: 0;
+  font-size: clamp(20px, 4.5vw, 28px);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* SEGUNDA LÍNEA */
+.portada-subline {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  margin-top: 4px;
+  width: 100%;
+}
+
+
+/* HOSPITAL (más importante que la versión) */
+.hospital-name {
+  font-size: 16px;        /* 👈 más grande */
+  font-weight: 600;
+  opacity: 0.85;
+}
+
+/* VERSIÓN (metadata) */
+.app-version {
+  font-size: 11px;
+  font-style: italic;
+  opacity: 0.55;
+  margin-right: -20px
+}
+
+@media (max-width: 360px) {
+  .app-version {
+    margin-right: -10px;
+  }
+}
+
+
+/* ---------- CONTENIDO CENTRAL ---------- */
+
+.portada-content {
+  flex: 1;
+  width: 100%;
+  max-width: 1100px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+
+  padding: 12px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 360px) {
+  .hospital-name {
+    font-size: 14px;
+  }
+
+  .app-version {
+    font-size: 10px;
+  }
+}
+
+.portada-cooperadora {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.95;          /* un pelín más presente */
+  padding: 12px;         /* aire táctil */
+}
+
+.btn-cooperadora {
+  background: linear-gradient(180deg,#f2b819 0%,  #ff9100 100%);
+  color: #1a1a1a;
+  border: none;
+  border-radius: 18px;
+  text-decoration: none;   /* 👈 saca el subrayado */
+
+  padding: 18px 22px;
+  max-width: 320px;
+  width: 100%;
+
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(0,0,0,0.25);
+
+  animation: latido 1.7s ease-in-out infinite;
+}
+
+/* GRID INTERNO */
+.coop-grid {
+  display: grid;
+  grid-template-columns: 58px 1fr;   /* 👈 emoji + texto */
+  gap: 14px;
+  align-items: center;
+}
+
+/* EMOJI */
+.coop-emoji {
+  font-size: 58px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* TEXTO */
+.coop-text {
+  text-align: left;
+}
+
+.coop-title {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.coop-subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 400;
+  opacity: 0.9;
+}
+
+@keyframes latido {
+  0%   { transform: scale(1); }
+  5%   { transform: scale(1.06); }   /* sístole */
+  10%  { transform: scale(1); }
+  100% { transform: scale(1); }      /* diástole larga */
+}
+
+.btn-cooperadora {
+  animation: latido 1.7s ease-in-out infinite;
+}
+
+/* ---------- HERO (DERECHA) ---------- */
+
+.portada-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.portada-hero img {
+  border-radius: 6px;
+  max-width: 100%;
+  max-height: 50vh;
+  object-fit: contain;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---------- BOTÓN ACCEDER ---------- */
+
+.btn-acceder {
+  background: #2dff72;
+  color: #0e2a1b;
+  border: none;
+  border-radius: 16px;
+
+  padding: 16px 28px;
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.25);
+}
+
+.btn-acceder:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+}
+
+.btn-acceder:active {
+  transform: translateY(0);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- OCULTAR PORTADA ---------- */
+
+.portada {
+  transition: opacity 300ms ease;
+}
+
+.portada.portada-hide {
+  opacity: 0;
+}
+
+/* =====================================================
+📱 RESPONSIVE
+===================================================== */
+
+@media (max-width: 768px) {
+  .portada-content {
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  .portada-cooperadora {
+    margin-bottom: 4px;
+    order: 1;   /* 👈 ARRIBA */
+  } 
+
+  .portada-hero {
+    order: 2;
+  }
+
+  .portada-hero img {
+  max-height: 42vh;      /* 👈 CLAVE */
+  width: auto;
+  
+  }
+
+  .btn-acceder {
+  margin-top: 8px;
+  }
+}
+
+/* viewport */
+
+#viewport {
+  position: fixed;
+  inset: 0;
+
+  width: calc(var(--vw) * 100);
+  height: calc(var(--vh) * 100);
+
+  overflow: hidden;
+  background: rgb(37, 62, 82);
+
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+/* RESET BÁSICO */
+
+#mapPB,
+.leaflet-container {
+  background: linear-gradient(
+    to bottom,
+    rgb(37, 62, 82) 0%,
+    #b8b8b8 40%,
+    #e3e3e3 60%,
+    #b8b8b8 90%,
+    rgb(37, 62, 82) 100%
+  );
+}
+
+
+html, body {
+  max-width: 100vw;
+  overflow-x: hidden;
+  width: 100%;
+  height: 100%;        /* 🔥 faltaba esto */
+  margin: 0;
+  background: #1b1b1d; /* gris oscuro base */
+}
+
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* FONDO GENERAL */
+body {
+  font-family: system-ui, Arial, sans-serif;
+  background: rgb(37, 62, 82);;
+  color: white;
+  overflow: hidden;
+  touch-action: none;
+}
+
+/* HEADER */
+.topbar {
+  position: absolute;
+  background: rgb(18, 36, 51);
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  font-size: 18px;
+  text-align: center;
+}
+
+.topbar h1 {
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+
+.app {
+  display: flex;
+  flex-direction: column; /* 👈 ESTE ES EL CAMBIO */
+  }
+
+/* 🗺️ CONTENEDOR DEL MAPA */
+.map-wrapper {
+  width: 100%;
+  max-width: 100%;
+  padding: 2px 0;
+  flex: 1;
+  background: #111;
+  overflow: hidden;        /* 🔒 el zoom NO sale de acá */
+  position: relative;
+}
+
+
+/* BUSCADOR */
+ 
+.search-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto 1fr;  /* 🔑 */
+  gap: 4px;
+  overflow: hidden;
+  flex: 1;
+  min-height: 0;
+}
+
+#mapContainer {
+  position: absolute;
+  inset: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+#mapPB {
+  width: 100%;
+  height: 100%;
+}
+
+
+.search-box input {
+  width: 100%;   
+  padding: 10px;
+  border-radius: 86px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+}
+
+#originInput {
+  opacity: 0.85;
+}
+
+
+/* AUTOCOMPLETE */
+#results {
+  grid-column: 1 / -1;
+  grid-row: 3;
+  flex: 1;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  min-height: 0;
+  padding-bottom: 40px;
+  pointer-events: none;
+  display: none;
+}
+
+
+#results li {
+  padding: 8px;
+  border-bottom: 1px solid rgb(0, 89, 83);
+  cursor: pointer;
+}
+
+#results li:last-child {
+  border-bottom: none;
+}
+  
+#results li:hover {
+  background: #1e293b;
+}
+
+#results .sugerencia {
+  padding: 12px;
+  text-align: left;
+  font-weight: 600;
+  color: #ffd500;           /* amarillo */
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+#results .sugerencia:hover {
+  background: rgba(255, 213, 0, 0.15);
+}
+
+.hidden {
+  display: none;
+}
+
+.hint-busqueda {
+  margin-top: 28px;
+  text-align: center;
+  color: white;
+  opacity: 0.75;
+  font-size: 14px;
+  pointer-events: none;
+  transition: opacity 180ms ease;
+}
+
+.hint-busqueda.hidden {
+  opacity: 0;
+}
+
+
+.top-panel {
+  padding-bottom: 40px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 20px;
+  padding: 16px;
+  left: 0;
+  width: 100%;
+  height: clamp(260px, 35%, 420px);
+  background: rgb(37, 62, 82);
+  z-index: 1000;
+  justify-content: space-between;
+  transition: transform 340ms ease-out;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+}
+
+.top-panel.expanded {
+  transform: translateY(0);
+}
+
+.panel-indicator {
+  font-size: 16px;
+  user-select: none;
+  transition: transform 340ms ease-out;
+  z-index: 3;
+}
+
+
+.top-panel.expanded .panel-indicator {
+  transform: translateX(-50%) rotate(540deg);
+}
+
+/* Zona arrastrable inferior (visual) */
+.panel-handle {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+
+  width: 100%;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: rgb(18, 36, 50);
+  cursor: pointer;
+}
+
+
+#coordToggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: #444;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+#coordToggle.active {
+  background: #38f86b;
+  color: #000;
+}
+
+#coordLabel {
+  position: fixed;
+  pointer-events: none;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 12px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  z-index: 1001;
+  display: none;
+}
+/* ===============================
+   FOTO DE DESTINO (RECORRIDO)
+   =============================== */
+
+.foto-destino {
+  position: absolute;
+  border-radius: 12px;
+  box-shadow: 0 10px 28px rgba(0,0,0,0.45);
+  z-index: 800;
+  transition:
+    width 280ms ease,
+    top 280ms ease,
+    left 280ms ease,
+    transform 280ms ease,
+    opacity 200ms ease;
+  opacity: 1;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.foto-destino.mini {
+  width: 70px;
+}
+
+.foto-destino.expandida {
+    top: 50% !important;
+  left: 50% !important;
+  width: 80vw;
+  max-width: 500px;
+  z-index: 1200;
+}
+
+
+.map-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.map-layer {
+  overflow: hidden;
+  position: absolute;
+  width: 100%;
+  max-width: 100%;
+  inset: 0;
+}
+
+#mapPB {
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  z-index: 5000;
+  
+}
+
+#mapP2 {
+  z-index: 2;
+  clip-path: inset(0 0 0 100%); /* oculto al inicio */
+  transition: clip-path 0.3s ease;
+}
+
+#beforeAfterSlider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 40px;
+  height: 100%;
+  transform: translateX(-50%);
+  z-index: 10;
+  cursor: ew-resize;
+  display: none;
+}
+/* =========================
+   CONTENEDOR GENERAL
+   ========================= */
+
+/* =========================
+   NOMBRE DEL SERVICIO
+   ========================= */
+
+.ruta-servicio {
+  font-size: 25px;
+  font-weight: 500;
+  color: #e5e7eb;
+
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+
+  padding: 4px 10px;
+  border-radius: 999px;
+
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 300ms ease, transform 300ms ease;
+}
+
+.ruta-servicio:not(.hidden) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.node-label {
+  background: rgb(0, 0, 0);
+  color: #ffd500;
+  font-size: 3px;
+  padding: 0.5px 1px;
+  border-radius: 2px;
+  border: none;
+}
+
+.confirmados {
+  grid-column: 1 / -1;   /* 👈 ESTA es la clave */
+  padding-top: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.confirmados.hidden {
+  display: none;
+}
+
+.confirm-item {
+  color: #38f86b;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.btn-iniciar {
+  margin-bottom: calc(
+    clamp(40px, 5vh, 88px) + env(safe-area-inset-bottom)
+  );
+}
+
+.btn-iniciar {
+  margin-top: 0;
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: #38f86b;
+  color: #062e1a;
+  font-size: 16px;
+  font-weight: 700;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.btn-iniciar:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.btn-iniciar:hover {
+  transform: scale(1.02);
+}
+
+.btn-iniciar.hidden {
+  display: none;
+}
+
+
+/* =====================================================
+   CONTENEDOR FIJO DE FOTOS (SUR-ESTE)
+   ===================================================== */
+
+.foto-trayecto {
+  position: relative;
+  opacity: 1;
+  width: 70px;
+  height: 60px;
+  transform: none;
+  background: rgb(254, 131, 0);
+  border-radius: 12px;
+  box-shadow: 0 16px 26px rgb(0, 0, 0);
+
+  overflow: hidden; 
+  z-index: 1500;
+}
+
+.foto-trayecto.hidden {
+  display: none;
+}
+
+/* Ícono cámara */
+.foto-trayecto-icono {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  color: yellow;
+  font-size: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-trayecto::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background-image: url("assets/camera2.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 48px 48px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
+  pointer-events: none;
+}
+
+
+
+/* Minis (1 o 2 fotos) */
+.foto-trayecto-minis {
+  position: absolute;
+  display: none; /* se activa cuando hay fotos */
+  width: 100%;
+  height: 100%;
+  padding: 6px;
+  gap: 6px;
+
+  display: none;
+  align-items: center;
+  justify-content: center;
+}
+
+.foto-trayecto-minis img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* si hay 2 fotos */
+.foto-trayecto-minis.doble img {
+  width: calc(50% - 3px);
+}
+
+
+/* =====================================================
+   MODAL DE FOTOS (VIEWPORT)
+   ===================================================== */
+
+@keyframes trayecto-bounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.08); }
+  55%  { transform: scale(0.96); }
+  75%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.foto-trayecto.bounce {
+  animation: trayecto-bounce 380ms ease;
+}
+
+.fade-out {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+  transform: scale(0.95);
+}
+
+  .visor-fotos {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    overflow-x: auto;
+    z-index: 9999;
+  }
+
+  .visor-fotos img {
+    max-height: 120px;
+    transition: transform 0.25s ease, max-height 0.25s ease;
+    cursor: pointer;
+  }
+
+  .visor-fotos img.max {
+    max-height: 90vh;
+  }
+
+/* =========================
+   VISOR FINAL DE FOTOS
+   ========================= */
+
+.visor-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  padding: 12px;
+  z-index: 9999;
+}
+
+
+.visor-contenido {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  /* 🔑 Layout */
+  width: 100%;
+  max-width: 320px;          /* pensado para 3 fotos */
+  
+  /* 🔑 Aire */
+  padding: 14px 8px; 
+  gap: 24px;
+
+  background: rgba(25, 25, 25, 0.96);
+  border-radius: 18px;
+
+  box-shadow:
+    0 12px 30px rgba(0,0,0,0.45),
+    inset 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+
+/* MINIATURAS (2 o 3 fotos) */
+.visor-thumb {
+  width: 110px;
+  height: 110px;
+  aspect-ratio: 1 / 1;
+
+  object-fit: contain;
+  background: #111;
+  border-radius: 14px;
+
+  box-shadow:
+    0 4px 12px rgba(0,0,0,0.4),
+    inset 0 0 0 1px rgba(255,255,255,0.05);
+
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+
+  flex-shrink: 0; /* 🔥 CLAVE */
+}
+
+.visor-contenido.dos-fotos {
+  gap: 60px;
+}
+
+/* Foto maximizada */
+.visor-overlay.modo-grande {
+  align-items: center;
+  padding: 16px;
+}
+
+.visor-thumb:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 8px 18px rgba(0,0,0,0.5),
+    inset 0 0 0 1px rgba(255,255,255,0.1);
+}
+
+
+/* FOTO GRANDE (1 sola) */
+.visor-img-grande {
+  margin: 0; /* 🔥 clave */
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 12px;
+}
+
+/* SOLO cuando hay foto maximizada */
+.visor-overlay.modo-grande .visor-contenido {
+  background: rgb(23, 23, 23);; /* más oscuro */
+}
+
+.btn-replay {
+  position: relative;
+  width: 70px;
+  height: 60px;
+  border-radius: 12px;
+
+  background: #0022ff url("assets/replay.webp") no-repeat center;
+  background-size: contain;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  box-shadow: 0 16px 26px rgba(0,0,0,0.7);
+  z-index: 1500;
+
+  /* 👇 estado inicial animable */
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+
+  transition:
+    opacity 260ms ease,
+    transform 260ms ease;
+}
+
+/* 👇 cuando debe verse */
+.btn-replay.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* 👇 solo para ocultarlo totalmente */
+.btn-replay.hidden {
+  display: none;
+}
+
+#dockAcciones {
+  position: absolute;
+
+  right: 16px;
+  top: calc(50% + 20px);
+  transform: translateY(-50%);
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  z-index: 2000;
+  pointer-events: auto;
+}
+
+
+#foto-trayecto { order: 1; }
+#btnReplay    { order: 2; }
+
+/* =========================
+   CINE OVERLAY
+   ========================= */
+
+#cineOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 6000;
+  pointer-events: none;
+  display: none;
+}
+
+/* PUERTAS */
+.cine-puerta {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+    background: linear-gradient(
+    to right,
+    rgb(140, 140, 140),  /* izquierda más clara */
+    rgb(86, 86, 86) 35%,
+    rgb(70, 70, 70) 70%,
+    rgb(60, 60, 60) 100%
+  );
+  transform: translateX(-100%);
+}
+
+/* puerta cerrando */
+.cine-puerta.cerrar {
+  animation: cerrarPuerta 600ms ease forwards;
+}
+
+/* puerta abriendo */
+.cine-puerta.abrir {
+  animation: abrirPuerta 600ms ease forwards;
+}
+
+#cineIndicador {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+
+  width: 100vw;     /* 🔥 ancho total SIEMPRE */
+  height: auto;     /* mantiene proporción */
+
+  transform: translate(-50%, -50%);
+
+  object-fit: cover;        /* permite recorte vertical */
+  object-position: center;  /* centra el texto */
+
+  opacity: 0;
+}
+
+
+/* movimiento vertical */
+#cineIndicador.sube {
+  animation: indicadorSube 5000ms ease-in-out forwards;
+}
+
+#cineIndicador.baja {
+  animation: indicadorBaja 5000ms ease-in-out forwards;
+}
+
+/* =========================
+   ANIMACIONES
+   ========================= */
+
+@keyframes cerrarPuerta {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes abrirPuerta {
+  from { transform: translateX(0); }
+  to   { transform: translateX(100%); }
+}
+
+@keyframes indicadorSube {
+  0%   { transform: translate(-50%, 40%); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translate(-50%, -60%); opacity: 0; }
+}
+
+@keyframes indicadorBaja {
+  0%   { transform: translate(-50%, -60%); opacity: 0; }
+  20%  { opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translate(-50%, 40%); opacity: 0; }
+}
+
+.top-panel.mostrando-resultados .confirmados {
+  display: none;
+}
+
+/* =====================================================
+🔄 BOTÓN LOADING
+===================================================== */
+
+.btn-acceder.loading {
+  background: #9aa5ad;
+  color: #2b2b2b;
+  cursor: default;
+  pointer-events: none;
+}
+
+.btn-acceder .spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(0,0,0,0.2);
+  border-top-color: #2b2b2b;
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -93,13 +93,12 @@ async function precargarRecursos() {
   "assets/fotos/Neuro.webp",
   "assets/fotos/odonto.webp",
   "assets/fotos/Pami.webp",
-  "assets/fotos/Anato.webp" ,
   "assets/fotos/Terapia.webp",
   "assets/fotos/coope.webp",
   "assets/fotos/Cardio.webp",
   "assets/fotos/onco.webp",
   "assets/fotos/video.webp",
-  "assets/fotos/Gin-guar.webp",
+  "assets/fotos/gin-guar.webp",
   "assets/fotos/otorrino.webp",
   "assets/fotos/int-mat.webp",
   "assets/fotos/Cli-Gine.webp",
@@ -108,7 +107,6 @@ async function precargarRecursos() {
   "assets/fotos/tomo.webp",
   "assets/fotos/Rayos-H.webp",
   "assets/fotos/dermato.webp",
-  "assets/fotos/onco.webp",
   "assets/fotos/As-Guardia.webp",
   "assets/fotos/As-D.webp",
   "assets/fotos/As-H.webp",
@@ -197,12 +195,6 @@ if (IS_DEV) {
 /* =====================================================
 1. UTILIDADES / DEBUG
 ===================================================== */
-function TRACE(msg) {
-  console.log("🧭 TRACE:", msg);
-}
-
-const imageUrl = "assets/mapas/pb.webp";
-
 const userIcon = L.icon({
   iconUrl: "assets/person.webp",
   iconSize: [80, 80],
@@ -239,24 +231,15 @@ let inputActivo = "origen"; // "origen" | "destino"
 let origenSeleccionado = null;
 let destinoSeleccionado = null;
 let rutaVerde = null;
-let startY = null;
-let tapStartY = null
 let panelState = "expanded";
 let ui = null
-let overlayPB = null;
 let mapPB = null
 let fotosServicio = null;
-let destinoLayer = null;
-let zonaOrigen = "Entrada Principal";
 let origenMarker = null;
 let cursorMarker = null;
 let audioWalk = null;
 let audioLlego = null;
 let audioHabilitado = false;
-let visorAbierto = false;
-let visorEstado = null; // "UNO" | "DOS" | "FOCO"
-let fotoFocoIndex = null;
-let ultimoRecorridoCfg = null;
 let ultimoCaminoIds = null;
 let marcadorLlegada = null;
 let huboRecorrido = false;
@@ -391,8 +374,6 @@ function bindPanelReset() {
   });
 }
 
-
-const PANEL_VISIBLE_PX = 40;
 
 function expandPanel() {
   ui.panel.style.transform = "";
@@ -864,30 +845,6 @@ function crearCursor(punto) {
   return cursorMarker;
 }
 
-async function prepararPlanos(planosUsados) {
-  const imageWidth = 440;
-  const imageHeight = 760;
-  const bounds = [[0, 0], [imageHeight, imageWidth]];
-
-  for (const plano of planosUsados) {
-    if (window.overlaysPorPlano[plano]) continue;
-
-    const cfg = PLANOS_CONFIG[plano];
-    if (!cfg?.image) {
-      console.warn("⚠️ Plano sin imagen:", plano);
-      continue;
-    }
-
-    const overlay = L.imageOverlay(cfg.image, bounds).addTo(window.map);
-    overlay.setOpacity(0);
-
-    window.overlaysPorPlano[plano] = overlay;
-
-    // deja que el browser cargue la imagen
-    await new Promise(r => requestAnimationFrame(r));
-  }
-}
-
 async function cambiarPlano(planoDestino) {
   
   const overlays = window.overlaysPorPlano;
@@ -968,11 +925,6 @@ async function dibujarTramo(nodosIds, { esUltimo }) {
   // limpiar visual anterior
   rutaVerde?.remove();
   rutaVerde = null;
-
-  const puntos = nodosIds.map(id => {
-    const n = window.coordenadas.nodos.find(n => n.id === id);
-    return [n.x, n.y];
-  });
 
   const primerNodo = window.coordenadas.nodos.find(n => n.id === nodosIds[0]);
 
@@ -1490,15 +1442,6 @@ function crearImg(src) {
 /* =====================================================
     CINE
 ===================================================== */
-const ORDEN_PISOS = {
-  
-  dss: -1,
-  pb:  0,
-  h1:  1,
-  h2:  2,
-  
-};
-
 function reproducirAscensor() {
   if (!audioAscensor) {
     audioAscensor = new Audio("assets/sonidos/ascensor.mp3");

@@ -245,6 +245,7 @@ let marcadorLlegada = null;
 let huboRecorrido = false;
 let planoVerticalActual = "pb";
 let audioAscensor = null;
+let recorridoEnCurso = false;
 
 /* =====================================================
 4. MAPA LEAFLET — INIT
@@ -340,12 +341,20 @@ function cargarCoordenadas() {
 
 const handle = document.querySelector(".panel-handle");
 
-handle.addEventListener("click", (e) => {
-  if (panelState === "expanded") {
-    collapsePanel();
-    e.stopPropagation();
-  }
-});
+if (handle) {
+  handle.addEventListener("click", (e) => {
+    if (panelState === "expanded") {
+      collapsePanel();
+      e.stopPropagation();
+    }
+  });
+}
+
+function limpiarResultados() {
+  ui.resultsList.innerHTML = "";
+  ui.resultsList.style.display = "none";
+  ui.resultsList.style.pointerEvents = "none";
+}
 
 function bindGlobalClicks() {
   document.addEventListener("click", (e) => {
@@ -424,23 +433,7 @@ function onIniciarClick(e) {
 
   if (!origenSeleccionado || !destinoSeleccionado) return;
 
-    // 🧹 limpiar llegada anterior
-  if (marcadorLlegada) {
-    marcadorLlegada.remove();
-    marcadorLlegada = null;
-  }
-
-  // 🧹 ocultar carpeta de fotos de recorrido anterior
-  const fotoTrayecto = document.getElementById("fotoTrayecto");
-  if (fotoTrayecto) {
-    fotoTrayecto.classList.add("hidden");
-    fotoTrayecto
-      .querySelector(".foto-trayecto-minis")
-      ?.replaceChildren();
-  }
-
-  // 🧹 reset lógico de fotos
-  fotosGuardadas.length = 0;
+  resetRecorridoVisual();
 
   huboRecorrido = true; // 👈 CLAVE
 
@@ -454,7 +447,7 @@ function onIniciarClick(e) {
   // 🧹 limpiar inputs (el estado ya vive en "confirmados")
   ui.inputDesde.value = "";
   ui.inputHacia.value = "";
-  ui.resultsList.innerHTML = "";
+  limpiarResultados();
   ui.panel.classList.remove("mostrando-resultados");
   ui.confirmados.classList.remove("hidden");
 
@@ -471,6 +464,31 @@ function onIniciarClick(e) {
       if (btnReplay) btnReplay.classList.remove("hidden");
     });
   }, 1000);
+}
+
+function resetRecorridoVisual() {
+  if (marcadorLlegada) {
+    marcadorLlegada.remove();
+    marcadorLlegada = null;
+  }
+
+  if (cursorMarker) {
+    cursorMarker.remove();
+    cursorMarker = null;
+  }
+
+  rutaVerde?.remove();
+  rutaVerde = null;
+
+  fotosGuardadas.length = 0;
+
+  const fotoTrayecto = document.getElementById("fotoTrayecto");
+  if (fotoTrayecto) {
+    fotoTrayecto.classList.add("hidden");
+    fotoTrayecto
+      .querySelector(".foto-trayecto-minis")
+      ?.replaceChildren();
+  }
 }
 
 function initUI() {
@@ -518,9 +536,7 @@ function resetVisualBuscador() {
   if (!hint) return;
 
   // 🔹 limpiar resultados (incluye sugerencia amarilla)
-  ui.resultsList.innerHTML = "";
-  ui.resultsList.style.display = "none";
-  ui.resultsList.style.pointerEvents = "none";
+  limpiarResultados();
 
   // 🔹 sacar estado de resultados
   ui.panel.classList.remove("mostrando-resultados");
@@ -550,7 +566,7 @@ function resetUIParaNuevaBusqueda() {
   ui.btnIniciar.classList.add("hidden");
 
   // 🧹 limpiar resultados / sugerencias
-  ui.resultsList.innerHTML = "";
+  limpiarResultados();
 
   // ✍️ volver a mostrar el hint blanco
   const hint = document.getElementById("hintBusqueda");
@@ -568,9 +584,7 @@ function initBuscador(ui) {
   const hint = document.getElementById("hintBusqueda");
 
   function ocultarResults() {
-    ui.resultsList.innerHTML = "";
-    ui.resultsList.style.display = "none";
-    ui.resultsList.style.pointerEvents = "none";
+    limpiarResultados();
   }
 
   function mostrarResults() {
@@ -636,17 +650,25 @@ function initBuscador(ui) {
     return;
   }
   
-  inputDesde.addEventListener("focus", () => {
-    hint?.classList.add("hidden");
-    inputActivo = "origen";
-    manejarBusqueda(inputDesde.value);
-  });
+  function bindInput(input, tipo) {
+    input.addEventListener("focus", () => {
+      hint?.classList.add("hidden");
+      inputActivo = tipo;
+      manejarBusqueda(input.value);
+    });
 
-  inputHacia.addEventListener("focus", () => {
-    hint?.classList.add("hidden");
-    inputActivo = "destino";
-    manejarBusqueda(inputHacia.value);
-  });
+    input.addEventListener("input", () => {
+      if (huboRecorrido) {
+        resetUIParaNuevaBusqueda();
+        huboRecorrido = false;
+      }
+
+      manejarBusqueda(input.value);
+    });
+  }
+
+  bindInput(inputDesde, "origen");
+  bindInput(inputHacia, "destino");
 
 
   function manejarBusqueda(valor) {
@@ -678,27 +700,6 @@ function initBuscador(ui) {
     ui.resultsList.appendChild(li);
   });
 }
-
-
-
-  // enganchar ambos inputs
- inputDesde.addEventListener("input", () => {
-    if (huboRecorrido) {
-      resetUIParaNuevaBusqueda();
-      huboRecorrido = false;
-    }
-
-    manejarBusqueda(inputDesde.value);
-  });
-
-  inputHacia.addEventListener("input", () => {
-    if (huboRecorrido) {
-      resetUIParaNuevaBusqueda();
-      huboRecorrido = false;
-    }
-
-    manejarBusqueda(inputHacia.value);
-  });
 
 }
 
@@ -1129,36 +1130,18 @@ function repetirRecorrido() {
   
   if (!ultimoCaminoIds || recorridoEnCurso) return;
   
-    // 🧹 borrar marcador verde final
-  if (marcadorLlegada) {
-    marcadorLlegada.remove();
-    marcadorLlegada = null;
-  }
-
-  // por las dudas, cursor viejo
-  if (cursorMarker) {
-    cursorMarker.remove();
-    cursorMarker = null;
-  }
-
-  // limpiar visual previo si aplica
-  rutaVerde?.remove();
-  rutaVerde = null;
-
-  // opcional: si querés vaciar fotos al repetir, dejalo.
-  // si NO, comentá estas dos líneas.
-  fotosGuardadas.length = 0;
-  document.querySelector("#fotoTrayecto .foto-trayecto-minis")?.replaceChildren();
+  resetRecorridoVisual();
 
   // 👇 OCULTAR AMBOS AL REINICIAR
+  const fotoTrayecto = document.getElementById("fotoTrayecto");
   btnReplay.classList.add("hidden");
-  fotoTrayecto.classList.add("hidden");
+  fotoTrayecto?.classList.add("hidden");
 
   recorridoEnCurso = true;
   dibujarCamino(ultimoCaminoIds).finally(() => {
     recorridoEnCurso = false;
     btnReplay.classList.remove("hidden");
-    fotoTrayecto.classList.remove("hidden");
+    fotoTrayecto?.classList.remove("hidden");
   });
 }
 
